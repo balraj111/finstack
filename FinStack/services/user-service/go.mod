@@ -1,0 +1,1 @@
+// go.mod placeholder for FinStack/services/user-service/go.mod

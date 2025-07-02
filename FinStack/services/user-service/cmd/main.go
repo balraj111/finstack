@@ -1,0 +1,1 @@
+// main.go placeholder for FinStack/services/user-service/cmd/main.go

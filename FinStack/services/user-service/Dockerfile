@@ -1,0 +1,1 @@
+// Dockerfile placeholder for FinStack/services/user-service/Dockerfile
