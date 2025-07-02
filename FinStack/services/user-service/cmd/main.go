@@ -28,6 +28,7 @@ func main() {
 	authGroup := r.Group("/user")
 	authGroup.Use(auth.JWTMiddleware())
 	authGroup.GET("/profile", handler.Profile)
+	authGroup.POST("/logout", handler.Logout)
 
 	fmt.Println("User Service running on port 8081")
 	if err := r.Run(":8081"); err != nil {
