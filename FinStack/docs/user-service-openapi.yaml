@@ -1,0 +1,105 @@
+openapi: 3.0.3
+info:
+  title: FinStack User Service API
+  version: 1.0.0
+  description: API documentation for user authentication service
+servers:
+  - url: http://localhost:8081
+
+paths:
+  /signup:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid input or user already exists
+
+  /login:
+    post:
+      summary: Login and retrieve JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: JWT token returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  user:
+                    type: string
+        '400':
+          description: Invalid input
+        '401':
+          description: Incorrect credentials
+
+  /user/profile:
+    get:
+      summary: Fetch authenticated user profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userID:
+                    type: string
+                  email:
+                    type: string
+        '401':
+          description: Unauthorized or invalid token
+
+  /user/logout:
+    post:
+      summary: Logout user and blacklist JWT
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logout success
+        '400':
+          description: Invalid token context
+        '401':
+          description: Token expired or blacklisted
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
